@@ -20,3 +20,6 @@ npm i -D parcel-transformer-vue-tsx-vapor @vue-jsx-vapor/runtime
   }
 }
 ```
+
+> 仅在项目里的 `*.tsx` 文件都是 **Vue TSX + Vapor** 语法时使用上面的全局配置。  
+> 如果仓库中还有 React/其他 TSX，请改为只对 Vue Vapor 文件模式单独配置，避免覆盖其它 TSX 转换流程。
