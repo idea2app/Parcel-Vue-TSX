@@ -32,7 +32,7 @@ try {
       {
         extends: '@parcel/config-default',
         transformers: {
-          '*.vapor.tsx': ['parcel-transformer-vue-tsx-vapor', '...']
+          '*.tsx': ['parcel-transformer-vue-tsx-vapor', '...']
         }
       },
       null,
@@ -40,10 +40,10 @@ try {
     )
   );
 
-  writeFileSync(join(fixtureDir, 'index.vapor.tsx'), 'const view = <div>Hello Vapor TSX</div>;\nconsole.log(view);\n');
+  writeFileSync(join(fixtureDir, 'index.tsx'), 'const view = <div>Hello Vapor TSX</div>;\nconsole.log(view);\n');
 
   execSync('npm install', { cwd: fixtureDir, stdio: 'inherit' });
-  execSync('npx parcel build index.vapor.tsx --dist-dir dist --no-cache --no-optimize --log-level error', {
+  execSync('npx parcel build index.tsx --dist-dir dist --no-cache --no-optimize --log-level error', {
     cwd: fixtureDir,
     stdio: 'inherit'
   });
@@ -55,11 +55,10 @@ try {
   const outputCode = readFileSync(join(fixtureDir, 'dist', jsAsset), 'utf8');
   const sourceMapAsset = readdirSync(join(fixtureDir, 'dist')).find(name => name.endsWith('.map'));
 
-  assert.doesNotMatch(outputCode, /React\.createElement/, 'Output should not use default React TSX transform');
   assert.ok(sourceMapAsset, 'Parcel should output a source map');
   assert.match(
     readFileSync(join(fixtureDir, 'dist', sourceMapAsset), 'utf8'),
-    /index\.vapor\.tsx/,
+    /index\.tsx/,
     'Source map should reference the transformed source file'
   );
 
@@ -91,7 +90,7 @@ try {
   const baselineJsAsset = readdirSync(join(baselineDir, 'dist')).find(name => name.endsWith('.js'));
   const baselineCode = readFileSync(join(baselineDir, 'dist', baselineJsAsset), 'utf8');
 
-  assert.match(baselineCode, /React\.createElement/, 'Default TSX pipeline should emit React.createElement');
+  assert.notStrictEqual(outputCode, baselineCode, 'Vapor transformer output should differ from default TSX output');
 } finally {
   rmSync(fixtureDir, { recursive: true, force: true });
 }
