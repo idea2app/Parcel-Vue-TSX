@@ -1,0 +1,44 @@
+{
+  "name": "parcel-transformer-vue-tsx-vapor",
+  "version": "0.1.0",
+  "description": "Parcel transformer for Vue TSX Vapor compiler output",
+  "main": "index.cjs",
+  "type": "commonjs",
+  "files": [
+    "index.cjs",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node --check index.cjs"
+  },
+  "keywords": [
+    "parcel",
+    "transformer",
+    "vue",
+    "tsx",
+    "vapor"
+  ],
+  "author": "idea2app",
+  "license": "LGPL-2.1-or-later",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/idea2app/Parcel-Vue-TSX.git"
+  },
+  "bugs": {
+    "url": "https://github.com/idea2app/Parcel-Vue-TSX/issues"
+  },
+  "homepage": "https://github.com/idea2app/Parcel-Vue-TSX#readme",
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@parcel/plugin": "^2.16.4",
+    "@parcel/source-map": "2.1.1",
+    "@vue-jsx-vapor/compiler-rs": "^3.2.25"
+  },
+  "peerDependencies": {
+    "@vue-jsx-vapor/runtime": "^3.2.25",
+    "parcel": "^2.16.0"
+  }
+}
