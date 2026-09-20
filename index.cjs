@@ -1,6 +1,7 @@
 const { Transformer } = require('@parcel/plugin');
 const SourceMap = require('@parcel/source-map').default;
 const { transform } = require('@vue-jsx-vapor/compiler-rs');
+const { basename } = require('node:path');
 
 module.exports = new Transformer({
   async transform({ asset, options }) {
@@ -25,13 +26,15 @@ module.exports = new Transformer({
 
       sourceMap.addVLQMap(parsedMap);
 
-      if (Array.isArray(parsedMap.sources)) {
-        for (const sourceName of parsedMap.sources) {
-          if (typeof sourceName === 'string') {
-            sourceMap.setSourceContent(sourceName, source);
-          }
-        }
-      }
+      const mappedSource =
+        Array.isArray(parsedMap.sources) &&
+        parsedMap.sources.find(
+          sourceName =>
+            typeof sourceName === 'string' &&
+            (sourceName === asset.filePath || sourceName === basename(asset.filePath))
+        );
+
+      sourceMap.setSourceContent(mappedSource || asset.filePath, source);
 
       asset.setMap(sourceMap);
     }

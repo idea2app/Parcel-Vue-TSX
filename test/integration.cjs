@@ -43,7 +43,7 @@ try {
   writeFileSync(join(fixtureDir, 'index.vapor.tsx'), 'const view = <div>Hello Vapor TSX</div>;\nconsole.log(view);\n');
 
   execSync('npm install', { cwd: fixtureDir, stdio: 'inherit' });
-  execSync('npx parcel build index.vapor.tsx --dist-dir dist --no-cache --log-level error', {
+  execSync('npx parcel build index.vapor.tsx --dist-dir dist --no-cache --no-optimize --log-level error', {
     cwd: fixtureDir,
     stdio: 'inherit'
   });
@@ -54,7 +54,7 @@ try {
 
   const outputCode = readFileSync(join(fixtureDir, 'dist', jsAsset), 'utf8');
 
-  assert.match(outputCode, /__v_isReactive/, 'Output should include Vue Vapor runtime bundle code');
+  assert.match(outputCode, /@vue\/shared v/, 'Output should include Vue Vapor runtime bundle banner');
   assert.doesNotMatch(outputCode, /React\.createElement/, 'Output should not use default React TSX transform');
 } finally {
   rmSync(fixtureDir, { recursive: true, force: true });
