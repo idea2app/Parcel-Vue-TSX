@@ -34,7 +34,13 @@ module.exports = new Transformer({
     asset.setCode(code);
 
     if (sourceMapEnabled && map) {
-      const sourceMap = new SourceMap(options.projectRoot);
+      let sourceMap;
+
+      try {
+        sourceMap = new SourceMap({ projectRoot: options.projectRoot });
+      } catch {
+        sourceMap = new SourceMap(options.projectRoot);
+      }
       const parsedMap = typeof map === 'string' ? JSON.parse(map) : map;
 
       sourceMap.addVLQMap(parsedMap);
