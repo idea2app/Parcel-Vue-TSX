@@ -3,16 +3,12 @@ const { transform } = require('@vue-jsx-vapor/compiler-rs');
 const { basename, dirname } = require('node:path');
 
 function loadSourceMap() {
-  try {
-    return require('@parcel/source-map').default;
-  } catch {
-    const parcelPackagePath = require.resolve('parcel/package.json');
-    const sourceMapPath = require.resolve('@parcel/source-map', {
-      paths: [dirname(parcelPackagePath)]
-    });
+  const parcelPackagePath = require.resolve('parcel/package.json');
+  const sourceMapPath = require.resolve('@parcel/source-map', {
+    paths: [dirname(parcelPackagePath)]
+  });
 
-    return require(sourceMapPath).default;
-  }
+  return require(sourceMapPath).default;
 }
 
 const SourceMap = loadSourceMap();
