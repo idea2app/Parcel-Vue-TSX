@@ -33,7 +33,8 @@
     "node": ">=18"
   },
   "dependencies": {
-    "@parcel/plugin": "^2.16.4",
+    "@parcel/plugin": "^2.1.1",
+    "@parcel/source-map": "^2.1.1",
     "@vue-jsx-vapor/compiler-rs": "^3.2.25"
   },
   "peerDependencies": {

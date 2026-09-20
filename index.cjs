@@ -1,4 +1,5 @@
 const { Transformer } = require('@parcel/plugin');
+const SourceMap = require('@parcel/source-map').default;
 const { transform } = require('@vue-jsx-vapor/compiler-rs');
 
 module.exports = new Transformer({
@@ -16,11 +17,24 @@ module.exports = new Transformer({
     });
 
     asset.type = 'js';
-    asset.setCode(
-      map
-        ? `${code}\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,${Buffer.from(map).toString('base64')}`
-        : code
-    );
+    asset.setCode(code);
+
+    if (sourceMapEnabled && map) {
+      const sourceMap = new SourceMap(options.projectRoot);
+      const parsedMap = JSON.parse(map);
+
+      sourceMap.addVLQMap(parsedMap);
+
+      if (Array.isArray(parsedMap.sources)) {
+        const mappedSource = parsedMap.sources.find(sourceName => typeof sourceName === 'string');
+
+        if (mappedSource) {
+          sourceMap.setSourceContent(mappedSource, source);
+        }
+      }
+
+      asset.setMap(sourceMap);
+    }
 
     return [asset];
   }

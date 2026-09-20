@@ -53,9 +53,16 @@ try {
   assert.ok(jsAsset, 'Parcel should output a JavaScript bundle');
 
   const outputCode = readFileSync(join(fixtureDir, 'dist', jsAsset), 'utf8');
+  const sourceMapAsset = readdirSync(join(fixtureDir, 'dist')).find(name => name.endsWith('.map'));
 
   assert.match(outputCode, /@vue\/shared v/, 'Output should include Vue Vapor runtime bundle banner');
   assert.doesNotMatch(outputCode, /React\.createElement/, 'Output should not use default React TSX transform');
+  assert.ok(sourceMapAsset, 'Parcel should output a source map');
+  assert.match(
+    readFileSync(join(fixtureDir, 'dist', sourceMapAsset), 'utf8'),
+    /index\.vapor\.tsx/,
+    'Source map should reference the transformed source file'
+  );
 } finally {
   rmSync(fixtureDir, { recursive: true, force: true });
 }
