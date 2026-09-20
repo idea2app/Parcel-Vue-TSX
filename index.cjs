@@ -7,9 +7,10 @@ module.exports = new Transformer({
     asset.invalidateOnFileChange(__filename);
 
     const source = await asset.getCode();
+    const sourceMapEnabled = asset.env.sourceMap != null;
     const { code, map } = transform(source, {
       filename: asset.filePath,
-      sourceMap: Boolean(asset.env.sourceMap),
+      sourceMap: sourceMapEnabled,
       interop: true,
       hmr: options.mode === 'development',
       runtimeModuleName: '@vue-jsx-vapor/runtime'

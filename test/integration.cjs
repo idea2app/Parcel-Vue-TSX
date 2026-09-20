@@ -31,7 +31,7 @@ try {
       {
         extends: '@parcel/config-default',
         transformers: {
-          '*.tsx': ['parcel-transformer-vue-tsx-vapor', '...']
+          '*.vapor.tsx': ['parcel-transformer-vue-tsx-vapor', '...']
         }
       },
       null,
@@ -39,10 +39,10 @@ try {
     )
   );
 
-  writeFileSync(join(fixtureDir, 'index.tsx'), 'const view = <div>Hello Vapor TSX</div>;\nconsole.log(view);\n');
+  writeFileSync(join(fixtureDir, 'index.vapor.tsx'), 'const view = <div>Hello Vapor TSX</div>;\nconsole.log(view);\n');
 
   execSync('npm install', { cwd: fixtureDir, stdio: 'inherit' });
-  execSync('npx parcel build index.tsx --dist-dir dist --no-cache --log-level error', {
+  execSync('npx parcel build index.vapor.tsx --dist-dir dist --no-cache --log-level error', {
     cwd: fixtureDir,
     stdio: 'inherit'
   });
