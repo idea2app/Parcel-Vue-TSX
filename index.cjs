@@ -2,17 +2,6 @@ const { Transformer } = require('@parcel/plugin');
 const { transform } = require('@vue-jsx-vapor/compiler-rs');
 const { basename, dirname } = require('node:path');
 
-function loadSourceMap() {
-  const parcelPackagePath = require.resolve('parcel/package.json');
-  const sourceMapPath = require.resolve('@parcel/source-map', {
-    paths: [dirname(parcelPackagePath)]
-  });
-
-  return require(sourceMapPath).default;
-}
-
-const SourceMap = loadSourceMap();
-
 module.exports = new Transformer({
   async transform({ asset, options }) {
     asset.invalidateOnFileChange(__filename);
@@ -31,6 +20,11 @@ module.exports = new Transformer({
     asset.setCode(code);
 
     if (sourceMapEnabled && map) {
+      const SourceMap = require(
+        require.resolve('@parcel/source-map', {
+          paths: [options.projectRoot, dirname(asset.filePath)]
+        })
+      ).default;
       let sourceMap;
 
       try {
