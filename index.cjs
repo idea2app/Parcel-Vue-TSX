@@ -1,6 +1,6 @@
 const { Transformer } = require('@parcel/plugin');
 const { transform } = require('@vue-jsx-vapor/compiler-rs');
-const { basename } = require('node:path');
+const { basename, dirname } = require('node:path');
 
 function loadSourceMap() {
   try {
@@ -8,7 +8,7 @@ function loadSourceMap() {
   } catch {
     const parcelPackagePath = require.resolve('parcel/package.json');
     const sourceMapPath = require.resolve('@parcel/source-map', {
-      paths: [parcelPackagePath]
+      paths: [dirname(parcelPackagePath)]
     });
 
     return require(sourceMapPath).default;
