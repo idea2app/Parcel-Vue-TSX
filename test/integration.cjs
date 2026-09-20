@@ -55,6 +55,7 @@ try {
   const outputCode = readFileSync(join(fixtureDir, 'dist', jsAsset), 'utf8');
 
   assert.match(outputCode, /__v_isReactive/, 'Output should include Vue Vapor runtime bundle code');
+  assert.doesNotMatch(outputCode, /React\.createElement/, 'Output should not use default React TSX transform');
 } finally {
   rmSync(fixtureDir, { recursive: true, force: true });
 }
