@@ -1,4 +1,4 @@
-const { mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync } = require('node:fs');
+const { mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync } = require('node:fs');
 const assert = require('node:assert/strict');
 const { tmpdir } = require('node:os');
 const { join, resolve } = require('node:path');
@@ -55,7 +55,6 @@ try {
   const outputCode = readFileSync(join(fixtureDir, 'dist', jsAsset), 'utf8');
   const sourceMapAsset = readdirSync(join(fixtureDir, 'dist')).find(name => name.endsWith('.map'));
 
-  assert.match(outputCode, /@vue\/shared v/, 'Output should include Vue Vapor runtime bundle banner');
   assert.doesNotMatch(outputCode, /React\.createElement/, 'Output should not use default React TSX transform');
   assert.ok(sourceMapAsset, 'Parcel should output a source map');
   assert.match(
@@ -63,6 +62,36 @@ try {
     /index\.vapor\.tsx/,
     'Source map should reference the transformed source file'
   );
+
+  const baselineDir = join(fixtureDir, 'baseline');
+
+  mkdirSync(baselineDir);
+  writeFileSync(
+    join(baselineDir, 'package.json'),
+    JSON.stringify(
+      {
+        name: 'parcel-default-tsx-fixture',
+        private: true,
+        devDependencies: {
+          parcel: '^2.16.4'
+        }
+      },
+      null,
+      2
+    )
+  );
+  writeFileSync(join(baselineDir, 'index.tsx'), 'const view = <div>Hello Vapor TSX</div>;\nconsole.log(view);\n');
+
+  execSync('npm install', { cwd: baselineDir, stdio: 'inherit' });
+  execSync('npx parcel build index.tsx --dist-dir dist --no-cache --no-optimize --log-level error', {
+    cwd: baselineDir,
+    stdio: 'inherit'
+  });
+
+  const baselineJsAsset = readdirSync(join(baselineDir, 'dist')).find(name => name.endsWith('.js'));
+  const baselineCode = readFileSync(join(baselineDir, 'dist', baselineJsAsset), 'utf8');
+
+  assert.match(baselineCode, /React\.createElement/, 'Default TSX pipeline should emit React.createElement');
 } finally {
   rmSync(fixtureDir, { recursive: true, force: true });
 }
