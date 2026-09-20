@@ -16,9 +16,9 @@ npm i -D @parcel/config-default parcel-transformer-vue-tsx-vapor @vue-jsx-vapor/
 {
   "extends": "@parcel/config-default",
   "transformers": {
-    "*.vapor.tsx": ["parcel-transformer-vue-tsx-vapor", "..."]
+    "*.tsx": ["parcel-transformer-vue-tsx-vapor", "..."]
   }
 }
 ```
 
-> 推荐将 Vue Vapor TSX 文件命名为 `*.vapor.tsx`，避免覆盖 React/其他 TSX 转换流程。
+> 如果项目中混用 React/其他 TSX，可改成 `*.vapor.tsx` 等更窄的模式，只匹配 Vue Vapor 文件。
