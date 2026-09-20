@@ -1,5 +1,4 @@
 const { Transformer } = require('@parcel/plugin');
-const SourceMap = require('@parcel/source-map').default;
 const { transform } = require('@vue-jsx-vapor/compiler-rs');
 
 module.exports = new Transformer({
@@ -7,10 +6,9 @@ module.exports = new Transformer({
     asset.invalidateOnFileChange(__filename);
 
     const source = await asset.getCode();
-    const sourceMapEnabled = asset.env.sourceMap != null;
-    const { code, map } = transform(source, {
+    const { code } = transform(source, {
       filename: asset.filePath,
-      sourceMap: sourceMapEnabled,
+      sourceMap: false,
       interop: true,
       hmr: options.mode === 'development',
       runtimeModuleName: '@vue-jsx-vapor/runtime'
@@ -18,13 +16,6 @@ module.exports = new Transformer({
 
     asset.type = 'js';
     asset.setCode(code);
-
-    if (map) {
-      const sourceMap = new SourceMap(options.projectRoot);
-
-      sourceMap.addVLQMap(JSON.parse(map));
-      asset.setMap(sourceMap);
-    }
 
     return [asset];
   }

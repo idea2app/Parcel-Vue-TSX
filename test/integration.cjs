@@ -1,4 +1,5 @@
-const { mkdtempSync, rmSync, writeFileSync } = require('node:fs');
+const { mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync } = require('node:fs');
+const assert = require('node:assert/strict');
 const { tmpdir } = require('node:os');
 const { join, resolve } = require('node:path');
 const { execSync } = require('node:child_process');
@@ -46,6 +47,14 @@ try {
     cwd: fixtureDir,
     stdio: 'inherit'
   });
+
+  const jsAsset = readdirSync(join(fixtureDir, 'dist')).find(name => name.endsWith('.js'));
+
+  assert.ok(jsAsset, 'Parcel should output a JavaScript bundle');
+
+  const outputCode = readFileSync(join(fixtureDir, 'dist', jsAsset), 'utf8');
+
+  assert.match(outputCode, /__v_isReactive/, 'Output should include Vue Vapor runtime bundle code');
 } finally {
   rmSync(fixtureDir, { recursive: true, force: true });
 }
