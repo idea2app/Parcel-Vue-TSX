@@ -1,14 +1,12 @@
 const { Transformer } = require('@parcel/plugin');
-const SourceMap = require('@parcel/source-map').default;
 const { transform } = require('@vue-jsx-vapor/compiler-rs');
-const { basename } = require('node:path');
 
 module.exports = new Transformer({
   async transform({ asset, options }) {
     asset.invalidateOnFileChange(__filename);
 
     const source = await asset.getCode();
-    const sourceMapEnabled = asset.env.sourceMap != null;
+    const sourceMapEnabled = Boolean(asset.env.sourceMap);
     const { code, map } = transform(source, {
       filename: asset.filePath,
       sourceMap: sourceMapEnabled,
@@ -18,26 +16,11 @@ module.exports = new Transformer({
     });
 
     asset.type = 'js';
-    asset.setCode(code);
-
-    if (map) {
-      const sourceMap = new SourceMap(options.projectRoot);
-      const parsedMap = JSON.parse(map);
-
-      sourceMap.addVLQMap(parsedMap);
-
-      const mappedSource =
-        Array.isArray(parsedMap.sources) &&
-        parsedMap.sources.find(
-          sourceName =>
-            typeof sourceName === 'string' &&
-            (sourceName === asset.filePath || sourceName === basename(asset.filePath))
-        );
-
-      sourceMap.setSourceContent(mappedSource || asset.filePath, source);
-
-      asset.setMap(sourceMap);
-    }
+    asset.setCode(
+      map
+        ? `${code}\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,${Buffer.from(map).toString('base64')}`
+        : code
+    );
 
     return [asset];
   }
