@@ -41,7 +41,7 @@ try {
 
   writeFileSync(join(fixtureDir, 'index.tsx'), 'const view = <div>Hello Vapor TSX</div>;\nconsole.log(view);\n');
 
-  execSync('npm install --silent', { cwd: fixtureDir, stdio: 'inherit' });
+  execSync('npm install', { cwd: fixtureDir, stdio: 'inherit' });
   execSync('npx parcel build index.tsx --dist-dir dist --no-cache --log-level error', {
     cwd: fixtureDir,
     stdio: 'inherit'
