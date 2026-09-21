@@ -5,7 +5,7 @@
 ## 安装
 
 ```bash
-npm i -D @parcel/config-default parcel-transformer-vue-tsx-vapor @vue-jsx-vapor/runtime
+npm i -D parcel @parcel/config-default parcel-transformer-vue-tsx-vapor @vue-jsx-vapor/runtime
 ```
 
 ## 使用
