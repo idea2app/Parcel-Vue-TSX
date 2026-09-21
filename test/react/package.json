@@ -1,0 +1,13 @@
+{
+  "name": "parcel-default-tsx-fixture",
+  "private": true,
+  "dependencies": {
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
+  },
+  "devDependencies": {
+    "parcel": "^2.16.4",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0"
+  }
+}

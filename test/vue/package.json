@@ -1,0 +1,13 @@
+{
+  "name": "parcel-vue-tsx-vapor-fixture",
+  "private": true,
+  "dependencies": {
+    "@vue-jsx-vapor/runtime": "^3.2.25",
+    "vue": "3.6.0-rc.9"
+  },
+  "devDependencies": {
+    "@parcel/config-default": "^2.16.4",
+    "parcel": "^2.16.4",
+    "parcel-transformer-vue-tsx": "workspace:*"
+  }
+}
