@@ -78,7 +78,8 @@ try {
         private: true,
         devDependencies: {
           parcel: '^2.16.4',
-          react: '^19.1.1'
+          react: '^19.1.1',
+          'react-dom': '^19.1.1'
         }
       },
       null,

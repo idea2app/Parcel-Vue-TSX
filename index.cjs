@@ -31,11 +31,17 @@ module.exports = new Transformer({
           paths: [options.projectRoot, dirname(asset.filePath)]
         });
       }
-      const SourceMap = require(
-        require.resolve('@parcel/source-map', {
+      let sourceMapPath;
+
+      try {
+        sourceMapPath = require.resolve('@parcel/source-map', {
           paths: [dirname(hostParcelPath)]
-        })
-      ).default;
+        });
+      } catch {
+        sourceMapPath = require.resolve('@parcel/source-map');
+      }
+
+      const SourceMap = require(sourceMapPath).default;
       let sourceMap;
 
       try {
