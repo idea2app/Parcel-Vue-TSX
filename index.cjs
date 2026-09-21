@@ -53,24 +53,19 @@ module.exports = new Transformer({
 
       sourceMap.addVLQMap(parsedMap);
 
-      if (Array.isArray(parsedMap.sources)) {
-        for (const [index, sourceName] of parsedMap.sources.entries()) {
-          if (typeof sourceName !== 'string') {
-            continue;
-          }
+      if (Array.isArray(parsedMap.sources))
+        for (const [index, sourceName] of parsedMap.sources.entries())
+          if (typeof sourceName === 'string') {
+            const sourceContent =
+              Array.isArray(parsedMap.sourcesContent) && typeof parsedMap.sourcesContent[index] === 'string'
+                ? parsedMap.sourcesContent[index]
+                : sourceName === asset.filePath || sourceName === basename(asset.filePath)
+                  ? source
+                  : null;
 
-          const sourceContent =
-            Array.isArray(parsedMap.sourcesContent) && typeof parsedMap.sourcesContent[index] === 'string'
-              ? parsedMap.sourcesContent[index]
-              : sourceName === asset.filePath || sourceName === basename(asset.filePath)
-                ? source
-                : null;
-
-          if (sourceContent != null) {
-            sourceMap.setSourceContent(sourceName, sourceContent);
+            if (sourceContent != null)
+              sourceMap.setSourceContent(sourceName, sourceContent);
           }
-        }
-      }
 
       asset.setMap(sourceMap);
     }

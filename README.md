@@ -1,33 +1,33 @@
-# parcel-transformer-vue-tsx-vapor
+# Parcel-transformer-Vue-TSX
 
-将 [idea2app/Vue-MobX-Prime-ts#15](https://github.com/idea2app/Vue-MobX-Prime-ts/pull/15) 中的 Parcel TSX 转换器提取为独立 NPM 包。
+Parcel transformer for Vue TSX Vapor compiler output
 
-## 安装
+## Installation
 
 ```bash
-npm i -D parcel @parcel/config-default parcel-transformer-vue-tsx-vapor @vue-jsx-vapor/runtime
+npm i -D parcel @parcel/config-default parcel-transformer-vue-tsx @vue-jsx-vapor/runtime
 ```
 
-## 使用
+## Usage
 
-推荐在项目根目录创建或更新 `.parcelrc`（仅匹配 Vue Vapor 文件）：
+Use this as the default option when all TSX files in your project are Vue Vapor TSX:
 
 ```json
 {
   "extends": "@parcel/config-default",
   "transformers": {
-    "*.vapor.tsx": ["parcel-transformer-vue-tsx-vapor", "..."]
+    "*.tsx": ["parcel-transformer-vue-tsx", "..."]
   }
 }
 ```
 
-如果项目里的 TSX 全部都是 Vue Vapor，也可以直接使用 `*.tsx` 全量匹配。
+If your repository mixes Vue Vapor TSX with other TSX variants (for example React TSX), scope the matcher:
 
 ```json
 {
   "extends": "@parcel/config-default",
   "transformers": {
-    "*.tsx": ["parcel-transformer-vue-tsx-vapor", "..."]
+    "*.vapor.tsx": ["parcel-transformer-vue-tsx", "..."]
   }
 }
 ```

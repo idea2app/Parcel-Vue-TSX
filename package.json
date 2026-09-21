@@ -1,17 +1,9 @@
 {
-  "name": "parcel-transformer-vue-tsx-vapor",
+  "name": "parcel-transformer-vue-tsx",
   "version": "0.1.0",
   "description": "Parcel transformer for Vue TSX Vapor compiler output",
-  "main": "index.cjs",
-  "type": "commonjs",
-  "files": [
-    "index.cjs",
-    "README.md",
-    "LICENSE"
-  ],
-  "scripts": {
-    "test": "node --check index.cjs && node test/integration.cjs"
-  },
+  "license": "LGPL-2.1-or-later",
+  "author": "shiy2008@gmail.com",
   "keywords": [
     "parcel",
     "transformer",
@@ -19,23 +11,34 @@
     "tsx",
     "vapor"
   ],
-  "author": "idea2app",
-  "license": "LGPL-2.1-or-later",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/idea2app/Parcel-Vue-TSX.git"
   },
+  "homepage": "https://github.com/idea2app/Parcel-Vue-TSX#readme",
   "bugs": {
     "url": "https://github.com/idea2app/Parcel-Vue-TSX/issues"
   },
-  "homepage": "https://github.com/idea2app/Parcel-Vue-TSX#readme",
+  "main": "index.cjs",
+  "type": "commonjs",
+  "files": [
+    "index.cjs",
+    "README.md",
+    "LICENSE"
+  ],
   "engines": {
-    "node": ">=18"
+    "node": ">=22"
+  },
+  "scripts": {
+    "test": "node --check index.cjs  &&  tsx --test test/index.test.ts"
   },
   "dependencies": {
     "@parcel/plugin": "^2.16.0",
     "@parcel/source-map": "^2.1.1",
     "@vue-jsx-vapor/compiler-rs": "^3.2.25"
+  },
+  "devDependencies": {
+    "tsx": "^4.20.5"
   },
   "peerDependencies": {
     "@parcel/config-default": "^2.16.0",
