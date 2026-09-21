@@ -37,11 +37,15 @@
     "@vue-jsx-vapor/compiler-rs": "^3.2.25"
   },
   "peerDependencies": {
+    "@parcel/core": "^2.16.0",
     "@parcel/config-default": "^2.16.0",
     "@vue-jsx-vapor/runtime": "^3.2.25",
     "parcel": "^2.16.0"
   },
   "peerDependenciesMeta": {
+    "@parcel/core": {
+      "optional": true
+    },
     "@parcel/config-default": {
       "optional": true
     }
