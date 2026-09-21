@@ -20,12 +20,12 @@ module.exports = new Transformer({
     asset.setCode(code);
 
     if (sourceMapEnabled && map) {
-      const parcelPackagePath = require.resolve('parcel/package.json', {
+      const corePackagePath = require.resolve('@parcel/core/package.json', {
         paths: [options.projectRoot, dirname(asset.filePath)]
       });
       const SourceMap = require(
         require.resolve('@parcel/source-map', {
-          paths: [dirname(parcelPackagePath)]
+          paths: [dirname(corePackagePath)]
         })
       ).default;
       let sourceMap;
