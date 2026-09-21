@@ -1,6 +1,11 @@
 # Parcel-transformer-Vue-TSX
 
-Parcel transformer for Vue TSX Vapor compiler output
+Parcel transformer for [Vue JSX Vapor compiler][1] output
+
+[![NPM Dependency](https://img.shields.io/librariesio/github/idea2app/Parcel-transformer-Vue-TSX.svg)][2]
+[![CI & CD](https://github.com/idea2app/Parcel-transformer-Vue-TSX/actions/workflows/main.yml/badge.svg)][3]
+
+[![NPM](https://nodei.co/npm/parcel-transformer-vue-tsx.png?downloads=true&downloadRank=true&stars=true)][4]
 
 ## Installation
 
@@ -31,3 +36,8 @@ If your repository mixes Vue Vapor TSX with other TSX variants (for example Reac
   }
 }
 ```
+
+[1]: https://github.com/vuejs/vue-jsx-vapor
+[2]: https://libraries.io/npm/parcel-transformer-vue-tsx
+[3]: https://github.com/idea2app/Parcel-transformer-Vue-TSX/actions/workflows/main.yml
+[4]: https://npm.im/parcel-transformer-vue-tsx/
