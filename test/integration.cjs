@@ -72,14 +72,18 @@ try {
         name: 'parcel-default-tsx-fixture',
         private: true,
         devDependencies: {
-          parcel: '^2.16.4'
+          parcel: '^2.16.4',
+          react: '^19.1.1'
         }
       },
       null,
       2
     )
   );
-  writeFileSync(join(baselineDir, 'index.tsx'), 'const view = <div>Hello Vapor TSX</div>;\nconsole.log(view);\n');
+  writeFileSync(
+    join(baselineDir, 'index.tsx'),
+    "import React from 'react';\nconst view = <div>Hello Vapor TSX</div>;\nconsole.log(view);\n"
+  );
 
   execSync('npm install', { cwd: baselineDir, stdio: 'inherit' });
   execSync('npx parcel build index.tsx --dist-dir dist --no-cache --no-optimize --log-level error', {
