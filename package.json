@@ -13,11 +13,11 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/idea2app/Parcel-Vue-TSX.git"
+    "url": "git+https://github.com/idea2app/Parcel-transformer-Vue-TSX.git"
   },
-  "homepage": "https://github.com/idea2app/Parcel-Vue-TSX#readme",
+  "homepage": "https://github.com/idea2app/Parcel-transformer-Vue-TSX#readme",
   "bugs": {
-    "url": "https://github.com/idea2app/Parcel-Vue-TSX/issues"
+    "url": "https://github.com/idea2app/Parcel-transformer-Vue-TSX/issues"
   },
   "files": [
     "index.cjs",
