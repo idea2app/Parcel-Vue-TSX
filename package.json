@@ -19,35 +19,35 @@
   "bugs": {
     "url": "https://github.com/idea2app/Parcel-Vue-TSX/issues"
   },
-  "main": "index.cjs",
-  "type": "commonjs",
   "files": [
     "index.cjs",
     "README.md",
     "LICENSE"
   ],
+  "main": "index.cjs",
   "engines": {
     "node": ">=22"
   },
-  "scripts": {
-    "test": "node --check index.cjs  &&  tsx --test test/index.test.ts"
-  },
   "dependencies": {
-    "@parcel/plugin": "^2.16.0",
-    "@parcel/source-map": "^2.1.1",
-    "@vue-jsx-vapor/compiler-rs": "^3.2.25"
-  },
-  "devDependencies": {
-    "tsx": "^4.20.5"
+    "@parcel/plugin": "^2",
+    "@parcel/source-map": "^2",
+    "@vue-jsx-vapor/compiler-rs": "^3"
   },
   "peerDependencies": {
-    "@parcel/config-default": "^2.16.0",
-    "@vue-jsx-vapor/runtime": "^3.2.25",
-    "parcel": "^2.16.0"
+    "@parcel/config-default": "^2",
+    "@vue-jsx-vapor/runtime": "^3",
+    "parcel": "^2"
+  },
+  "devDependencies": {
+    "@types/node": "^24.13.6",
+    "tsx": "^4.23.15"
   },
   "peerDependenciesMeta": {
     "@parcel/config-default": {
       "optional": true
     }
+  },
+  "scripts": {
+    "test": "tsc --noEmit  &&  node --check index.cjs  &&  tsx --test test/index.test.ts"
   }
 }
