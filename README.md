@@ -22,3 +22,12 @@ npm i -D @parcel/config-default parcel-transformer-vue-tsx-vapor @vue-jsx-vapor/
 ```
 
 如果项目里的 TSX 全部都是 Vue Vapor，也可以直接使用 `*.tsx` 全量匹配。
+
+```json
+{
+  "extends": "@parcel/config-default",
+  "transformers": {
+    "*.tsx": ["parcel-transformer-vue-tsx-vapor", "..."]
+  }
+}
+```
