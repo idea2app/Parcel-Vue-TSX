@@ -55,6 +55,11 @@ try {
   const outputCode = readFileSync(join(fixtureDir, 'dist', jsAsset), 'utf8');
   const sourceMapAsset = readdirSync(join(fixtureDir, 'dist')).find(name => name.endsWith('.map'));
 
+  assert.doesNotMatch(
+    outputCode,
+    /react-jsx-runtime/,
+    'Vapor transformer output should not include React JSX runtime modules'
+  );
   assert.ok(sourceMapAsset, 'Parcel should output a source map');
   assert.match(
     readFileSync(join(fixtureDir, 'dist', sourceMapAsset), 'utf8'),
@@ -97,6 +102,7 @@ try {
 
   const baselineCode = readFileSync(join(baselineDir, 'dist', baselineJsAsset), 'utf8');
 
+  assert.match(baselineCode, /react-jsx-runtime/, 'Default TSX pipeline should include React JSX runtime modules');
   assert.notStrictEqual(outputCode, baselineCode, 'Vapor transformer output should differ from default TSX output');
 } finally {
   rmSync(fixtureDir, { recursive: true, force: true });
