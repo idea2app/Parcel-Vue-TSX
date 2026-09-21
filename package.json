@@ -47,6 +47,10 @@
       "optional": true
     }
   },
+  "prettier": {
+    "singleQuote": true,
+    "trailingComma": "none"
+  },
   "scripts": {
     "test": "tsc --noEmit  &&  node --check index.cjs  &&  tsx --test test/index.test.ts"
   }

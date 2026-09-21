@@ -1,6 +1,7 @@
 const { Transformer } = require('@parcel/plugin');
+const SourceMap = require('@parcel/source-map').default;
 const { transform } = require('@vue-jsx-vapor/compiler-rs');
-const { basename, dirname } = require('node:path');
+const { basename } = require('node:path');
 
 module.exports = new Transformer({
   async transform({ asset, options }) {
@@ -8,6 +9,7 @@ module.exports = new Transformer({
 
     const source = await asset.getCode();
     const sourceMapEnabled = Boolean(asset.env.sourceMap);
+
     const { code, map } = transform(source, {
       filename: asset.filePath,
       sourceMap: sourceMapEnabled,
@@ -20,53 +22,30 @@ module.exports = new Transformer({
     asset.setCode(code);
 
     if (sourceMapEnabled && map) {
-      let hostParcelPath;
+      const sourceMap = new SourceMap(options.projectRoot);
 
-      try {
-        hostParcelPath = require.resolve('@parcel/core/package.json', {
-          paths: [options.projectRoot, dirname(asset.filePath)]
-        });
-      } catch {
-        hostParcelPath = require.resolve('parcel/package.json', {
-          paths: [options.projectRoot, dirname(asset.filePath)]
-        });
-      }
-      let sourceMapPath;
+      /** @type {import("@parcel/source-map").VLQMap | undefined} */
+      const parsedMap = map && JSON.parse(map);
 
-      try {
-        sourceMapPath = require.resolve('@parcel/source-map', {
-          paths: [dirname(hostParcelPath)]
-        });
-      } catch {
-        sourceMapPath = require.resolve('@parcel/source-map');
-      }
+      if (parsedMap) {
+        sourceMap.addVLQMap(parsedMap);
 
-      const SourceMap = require(sourceMapPath).default;
-      let sourceMap;
+        const { sources, sourcesContent } = parsedMap;
 
-      try {
-        sourceMap = new SourceMap({ projectRoot: options.projectRoot });
-      } catch {
-        sourceMap = new SourceMap(options.projectRoot);
-      }
-      const parsedMap = typeof map === 'string' ? JSON.parse(map) : map;
-
-      sourceMap.addVLQMap(parsedMap);
-
-      if (Array.isArray(parsedMap.sources))
-        for (const [index, sourceName] of parsedMap.sources.entries())
+        for (const [index, sourceName] of sources.entries())
           if (typeof sourceName === 'string') {
             const sourceContent =
-              Array.isArray(parsedMap.sourcesContent) && typeof parsedMap.sourcesContent[index] === 'string'
-                ? parsedMap.sourcesContent[index]
-                : sourceName === asset.filePath || sourceName === basename(asset.filePath)
+              sourcesContent && typeof sourcesContent[index] === 'string'
+                ? sourcesContent[index]
+                : sourceName === asset.filePath ||
+                    sourceName === basename(asset.filePath)
                   ? source
                   : null;
 
             if (sourceContent != null)
               sourceMap.setSourceContent(sourceName, sourceContent);
           }
-
+      }
       asset.setMap(sourceMap);
     }
 
