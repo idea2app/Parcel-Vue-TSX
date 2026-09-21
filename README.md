@@ -10,15 +10,15 @@ npm i -D @parcel/config-default parcel-transformer-vue-tsx-vapor @vue-jsx-vapor/
 
 ## 使用
 
-在项目根目录创建或更新 `.parcelrc`：
+推荐在项目根目录创建或更新 `.parcelrc`（仅匹配 Vue Vapor 文件）：
 
 ```json
 {
   "extends": "@parcel/config-default",
   "transformers": {
-    "*.tsx": ["parcel-transformer-vue-tsx-vapor", "..."]
+    "*.vapor.tsx": ["parcel-transformer-vue-tsx-vapor", "..."]
   }
 }
 ```
 
-> 如果项目中混用 React/其他 TSX，可改成 `*.vapor.tsx` 等更窄的模式，只匹配 Vue Vapor 文件。
+如果项目里的 TSX 全部都是 Vue Vapor，也可以直接使用 `*.tsx` 全量匹配。
