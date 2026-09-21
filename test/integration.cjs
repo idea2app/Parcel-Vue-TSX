@@ -88,6 +88,9 @@ try {
   });
 
   const baselineJsAsset = readdirSync(join(baselineDir, 'dist')).find(name => name.endsWith('.js'));
+
+  assert.ok(baselineJsAsset, 'Baseline Parcel build should output a JavaScript bundle');
+
   const baselineCode = readFileSync(join(baselineDir, 'dist', baselineJsAsset), 'utf8');
 
   assert.notStrictEqual(outputCode, baselineCode, 'Vapor transformer output should differ from default TSX output');
