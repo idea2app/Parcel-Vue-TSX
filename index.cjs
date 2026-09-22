@@ -1,8 +1,7 @@
 const { Transformer } = require('@parcel/plugin');
 const SourceMap = require('@parcel/source-map').default;
 const { transform } = require('@vue-jsx-vapor/compiler-rs');
-const { basename } = require('node:path');
-const { pathToFileURL } = require('node:url');
+const { basename, dirname, relative } = require('node:path');
 
 const configNames = [
   'vue-jsx.config.json',
@@ -17,7 +16,7 @@ const tsConfigNames = [
 ];
 
 module.exports = new Transformer({
-  async loadConfig({ config }) {
+  async loadConfig({ config, options }) {
     const searchPath = config.searchPath;
     const configFile = await config.getConfigFrom(searchPath, configNames);
 
@@ -29,9 +28,21 @@ module.exports = new Transformer({
 
     if (!tsConfig) return {};
 
+    const specifier = relative(dirname(searchPath), tsConfig.filePath);
+    const normalizedSpecifier = specifier.startsWith('.')
+      ? specifier
+      : `./${specifier}`;
+
+    config.addDevDependency({
+      specifier: normalizedSpecifier,
+      resolveFrom: searchPath
+    });
     config.invalidateOnStartup();
 
-    const loadedConfig = await import(pathToFileURL(tsConfig.filePath).href);
+    const loadedConfig = await options.packageManager.require(
+      normalizedSpecifier,
+      searchPath
+    );
 
     return loadedConfig.default || loadedConfig;
   },
