@@ -47,7 +47,7 @@ To customize the Vue JSX compiler options, add one of these config files to your
 - `vue-jsx.config.cts`
 - `vue-jsx.config.mts`
 
-Example:
+Example JSON config:
 
 ```json
 {

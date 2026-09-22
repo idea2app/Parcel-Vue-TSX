@@ -31,9 +31,7 @@ module.exports = new Transformer({
 
     config.invalidateOnStartup();
 
-    const loadedConfig = await import(
-      `${pathToFileURL(tsConfig.filePath).href}?t=${Date.now()}`
-    );
+    const loadedConfig = await import(pathToFileURL(tsConfig.filePath).href);
 
     return loadedConfig.default || loadedConfig;
   },
