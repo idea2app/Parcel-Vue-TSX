@@ -1,7 +1,7 @@
 const { Transformer } = require('@parcel/plugin');
 const SourceMap = require('@parcel/source-map').default;
 const { transform } = require('@vue-jsx-vapor/compiler-rs');
-const { basename, dirname, relative } = require('node:path');
+const { basename } = require('node:path');
 
 const configNames = [
   'vue-jsx.config.json',
@@ -27,16 +27,8 @@ module.exports = new Transformer({
     });
     if (!tsConfig) return {};
 
-    const specifier = relative(dirname(searchPath), tsConfig.filePath).replaceAll(
-      '\\',
-      '/'
-    );
-    const normalizedSpecifier = specifier.startsWith('.')
-      ? specifier
-      : `./${specifier}`;
-
     config.addDevDependency({
-      specifier: normalizedSpecifier,
+      specifier: tsConfig.filePath,
       resolveFrom: searchPath
     });
     config.invalidateOnStartup();
