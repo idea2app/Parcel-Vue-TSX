@@ -37,6 +37,28 @@ If your repository mixes Vue Vapor TSX with other TSX variants (for example Reac
 }
 ```
 
+To customize the Vue JSX compiler options, add one of these config files to your project root:
+
+- `vue-jsx.config.json`
+- `vue-jsx.config.js`
+- `vue-jsx.config.cjs`
+- `vue-jsx.config.mjs`
+- `vue-jsx.config.ts`
+- `vue-jsx.config.cts`
+- `vue-jsx.config.mts`
+
+Example:
+
+```json
+{
+  "runtimeModuleName": "@vue-jsx-vapor/runtime",
+  "optimize": true,
+  "mergeProps": true
+}
+```
+
+The config file is passed through to `@vue-jsx-vapor/compiler-rs`, so you can use the compiler options documented at https://vuejsx.dev/introduction/options.html.
+
 [1]: https://github.com/vuejs/vue-jsx-vapor
 [2]: https://libraries.io/npm/parcel-transformer-vue-tsx
 [3]: https://github.com/idea2app/Parcel-transformer-Vue-TSX/actions/workflows/main.yml

@@ -9,7 +9,7 @@ const vaporDir = join(__dirname, 'vue');
 
 test('build output differs from default TSX pipeline and emits source map', () => {
   execSync(
-    'pnpm exec parcel build index.vapor.tsx --dist-dir dist --no-cache --no-optimize --log-level error',
+    'corepack pnpm exec parcel build index.vapor.tsx --dist-dir dist --no-cache --no-optimize --log-level error',
     { cwd: vaporDir, stdio: 'inherit' }
   );
 
@@ -31,13 +31,17 @@ test('build output differs from default TSX pipeline and emits source map', () =
     'Vapor transformer output should not include React JSX runtime modules'
   );
   assert.match(
+    outputCode,
+    /<div>Hello Vapor TSX['"], 3\)/,
+    'Vapor transformer should apply vue-jsx.config.* compiler options'
+  );
+  assert.match(
     readFileSync(join(vaporDir, 'dist', sourceMapAsset), 'utf8'),
     /index\.vapor\.tsx/,
     'Source map should reference the transformed source file'
   );
-
   execSync(
-    'pnpm exec parcel build index.tsx --dist-dir dist --no-cache --no-optimize --log-level error',
+    'corepack pnpm exec parcel build index.tsx --dist-dir dist --no-cache --no-optimize --log-level error',
     { cwd: baselineDir, stdio: 'inherit' }
   );
 
