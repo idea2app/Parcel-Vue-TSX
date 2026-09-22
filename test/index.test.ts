@@ -6,12 +6,16 @@ import test from 'node:test';
 
 const baselineDir = join(__dirname, 'react');
 const vaporDir = join(__dirname, 'vue');
+const parcelBinaryName = process.platform === 'win32' ? 'parcel.cmd' : 'parcel';
+
+const parcelBuild = (cwd: string, entryFile: string) =>
+  `"${join(cwd, 'node_modules', '.bin', parcelBinaryName)}" build ${entryFile} --dist-dir dist --no-cache --no-optimize --log-level error`;
 
 test('build output differs from default TSX pipeline and emits source map', () => {
-  execSync(
-    'pnpm exec parcel build index.vapor.tsx --dist-dir dist --no-cache --no-optimize --log-level error',
-    { cwd: vaporDir, stdio: 'inherit' }
-  );
+  execSync(parcelBuild(vaporDir, 'index.vapor.tsx'), {
+    cwd: vaporDir,
+    stdio: 'inherit'
+  });
 
   const jsAsset = readdirSync(join(vaporDir, 'dist')).find(name =>
     name.endsWith('.js')
@@ -31,15 +35,19 @@ test('build output differs from default TSX pipeline and emits source map', () =
     'Vapor transformer output should not include React JSX runtime modules'
   );
   assert.match(
+    outputCode,
+    /<div>Hello Vapor TSX['"], 3\)/,
+    'Vapor transformer should apply vue-jsx.config.* compiler options'
+  );
+  assert.match(
     readFileSync(join(vaporDir, 'dist', sourceMapAsset), 'utf8'),
     /index\.vapor\.tsx/,
     'Source map should reference the transformed source file'
   );
-
-  execSync(
-    'pnpm exec parcel build index.tsx --dist-dir dist --no-cache --no-optimize --log-level error',
-    { cwd: baselineDir, stdio: 'inherit' }
-  );
+  execSync(parcelBuild(baselineDir, 'index.tsx'), {
+    cwd: baselineDir,
+    stdio: 'inherit'
+  });
 
   const baselineJsAsset = readdirSync(join(baselineDir, 'dist')).find(name =>
     name.endsWith('.js')
