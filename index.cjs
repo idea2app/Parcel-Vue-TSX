@@ -25,7 +25,7 @@ module.exports = new Transformer({
     const tsConfig = await config.getConfigFrom(searchPath, tsConfigNames, {
       parse: false
     });
-
+    if (!tsConfig) return {};
     if (!tsConfig) return {};
 
     const specifier = relative(dirname(searchPath), tsConfig.filePath);
@@ -40,7 +40,7 @@ module.exports = new Transformer({
     config.invalidateOnStartup();
 
     const loadedConfig = await options.packageManager.require(
-      normalizedSpecifier,
+      tsConfig.filePath,
       searchPath
     );
 

@@ -9,7 +9,7 @@ const vaporDir = join(__dirname, 'vue');
 
 test('build output differs from default TSX pipeline and emits source map', () => {
   execSync(
-    'corepack pnpm exec parcel build index.vapor.tsx --dist-dir dist --no-cache --no-optimize --log-level error',
+    'npx --no-install parcel build index.vapor.tsx --dist-dir dist --no-cache --no-optimize --log-level error',
     { cwd: vaporDir, stdio: 'inherit' }
   );
 
@@ -41,7 +41,7 @@ test('build output differs from default TSX pipeline and emits source map', () =
     'Source map should reference the transformed source file'
   );
   execSync(
-    'corepack pnpm exec parcel build index.tsx --dist-dir dist --no-cache --no-optimize --log-level error',
+    'npx --no-install parcel build index.tsx --dist-dir dist --no-cache --no-optimize --log-level error',
     { cwd: baselineDir, stdio: 'inherit' }
   );
 
