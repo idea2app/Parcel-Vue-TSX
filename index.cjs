@@ -26,9 +26,11 @@ module.exports = new Transformer({
       parse: false
     });
     if (!tsConfig) return {};
-    if (!tsConfig) return {};
 
-    const specifier = relative(dirname(searchPath), tsConfig.filePath);
+    const specifier = relative(dirname(searchPath), tsConfig.filePath).replaceAll(
+      '\\',
+      '/'
+    );
     const normalizedSpecifier = specifier.startsWith('.')
       ? specifier
       : `./${specifier}`;
