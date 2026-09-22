@@ -26,7 +26,8 @@
   ],
   "main": "index.cjs",
   "engines": {
-    "node": ">=22"
+    "node": ">=22",
+    "parcel": ">=2"
   },
   "dependencies": {
     "@parcel/plugin": "^2",

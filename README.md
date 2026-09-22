@@ -37,6 +37,10 @@ If your repository mixes Vue Vapor TSX with other TSX variants (for example Reac
 }
 ```
 
+## User cases
+
+1. SPA scaffold: https://github.com/idea2app/Vue-MobX-Shadcn-ts
+
 [1]: https://github.com/vuejs/vue-jsx-vapor
 [2]: https://libraries.io/npm/parcel-transformer-vue-tsx
 [3]: https://github.com/idea2app/Parcel-transformer-Vue-TSX/actions/workflows/main.yml
